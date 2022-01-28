@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+
+    <body>
+        <script>
+
+            function remove(left, toRemove) {
+                while (toRemove < 1 || toRemove > 6) {
+                    toRemove = Number(window.prompt("Please enter a number between 1 and 6 :"))
+                }
+                while (toRemove > left) {
+                    toRemove = Number(window.prompt("There are only " + left + " matches left. Enter " + left + " to win !"))
+                }
+                return (left - toRemove)
+            }   
+           
+            function matchesGame() {
+                var matches = 50 
+                var player1 = true
+                var rem
+                console.log("je fonctionne")
+
+                while (matches > 0) {
+                    if (player1 == true) {
+                        rem = Number(window.prompt("Please enter a number between 1 and 6 :"))
+                        matches = remove(matches, rem)
+                        window.alert(matches + " matches left")
+                        if (matches == 0) {
+                            window.alert("You win !")
+                        }
+                        else {
+                            player1 = false 
+                        }
+                    }
+                    else {
+                        if (matches => 6) {
+                        rem = Math.floor(Math.random() * 6 + 1)
+                        matches = remove(matches, rem)
+                        }
+                        else {
+                        rem = Math.floor(Math.random() * (matches + 1))
+                        matches = remove(matches, rem)
+                        }
+                        window.alert("Computer removed " + rem + " matches. " + matches + " matches left")
+                        if (matches == 0) {
+                            window.alert ("Computer wins")
+                        }
+                        else {
+                            player1 = true
+                        }
+                    }
+                }
+            }
+
+            matchesGame()
+        </script>
+
+    </body>
+
+</html>
