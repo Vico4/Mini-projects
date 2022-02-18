@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="utf-8" />
+  ​
+  <head> </head>
+  ​
+  <body>
+    <style></style>
+    ​
+    <script>
+      // fonctions pour transformer les voyages en objets
+
+      function parseTrip(trip) {
+        trip = trip.split(" ");
+        let tr = {
+          client: trip[0],
+          start: parseInt(trip[1]),
+          duration: parseInt(trip[2]),
+          price: parseInt(trip[3]),
+        };
+        return tr;
+      }
+
+      function parseTrips(trips) {
+        let parsedTrips = [];
+        trips.forEach((str) => {
+          parsedTrips.push(parseTrip(str));
+        });
+        parsedTrips.sort(function(a,b) {
+          return a.start - b.start
+        })
+        return parsedTrips;
+      }
+
+      let dayTrips = [
+        "Anita 16 3 7",
+        "Roger 0 5 10",
+        "Perdita 8 10 8",
+        "Pongo 3 7 14"
+      ];
+
+      let myTrips = parseTrips(dayTrips);
+
+      // obtenir les prix des voyages
+      function getTripsPrices(trips) {
+        let result = 0;
+        trips.forEach((trip) => {
+          result += trip.price;
+        });
+        return result;
+      }
+
+      // vérifier si deux voyages sont compatibles càd si leurs horaires n'empiètent pas l'une sur l'autre
+      function checkCompatibility(tripA, tripB) {
+          if (tripA.start + tripA.duration <= tripB.start) {
+            return true
+          }
+          else return false
+        }
+    
+      // trouver les compatibilités 
+      function findCompatibilities(trips) {
+        let compatibleTrips = []
+        for (let i = 0; i < trips.length; i++) {
+          compatibleTrips.push([trips[i]])
+          for (let j = i + 1; j < trips.length; j++) {
+            if (checkCompatibility(trips[i], trips[j]) == true) {
+              compatibleTrips.push([trips[i], trips[j]])
+            }
+          }
+        }
+        return compatibleTrips;
+      }
+
+      // trouver la combinaison de voyages qui rapporte le plus
+
+      function findBestPrice(trips) {
+        var bestPrice = trips[0]
+        for (let i= 1; i < trips.length; i++) {
+          if (getTripsPrices(trips[i]) > getTripsPrices(bestPrice)) {
+            bestPrice = trips[i]
+          }
+        }
+        return bestPrice
+      }
+
+      console.log(findBestPrice(findCompatibilities(myTrips)))
+
+    </script>
+  </body>
+</html>
